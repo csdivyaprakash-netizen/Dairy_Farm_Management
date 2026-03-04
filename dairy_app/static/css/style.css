@@ -1,0 +1,24 @@
+/* Interactive Background for Frontend [cite: 52, 126] */
+body.interactive-bg {
+    background: linear-gradient(-45deg, #1e3c72, #2a5298, #6dd5ed, #2193b0);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body.dashboard-bg {
+    background-color: #f4f7f6;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}

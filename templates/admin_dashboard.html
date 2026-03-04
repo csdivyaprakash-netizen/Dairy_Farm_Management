@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Welcome, Admin</h2>
+        <span class="badge bg-primary p-2">Dairy Farm Management System</span>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-info text-white shadow h-100">
+                <div class="card-body text-center p-4">
+                    <h4 class="card-title">Total Cattle</h4>
+                    <h2 class="display-4 fw-bold">{{ total_cattle }}</h2>
+                    <a href="{% url 'add_cattle' %}" class="btn btn-light w-100 mt-3 shadow-sm">Register New Cattle</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card bg-success text-white shadow h-100">
+                <div class="card-body text-center p-4">
+                    <h4 class="card-title">Inventory Items</h4>
+                    <h2 class="display-4 fw-bold">{{ inventory_items|length }}</h2>
+                    <a href="{% url 'add_inventory' %}" class="btn btn-light w-100 mt-3 shadow-sm">Manage Stock</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card bg-warning text-dark shadow h-100">
+                <div class="card-body text-center p-4">
+                    <h4 class="card-title">Today's Production</h4>
+                    <h2 class="display-4 fw-bold">{{ milk_today|default:"0" }} L</h2>
+                    <a href="{% url 'log_milk' %}" class="btn btn-dark text-white w-100 mt-3 shadow-sm">Log Milk Yield</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4 shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <h4 class="mb-0 text-dark fw-bold">Inventory Overview</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Item Name</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Unit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in inventory_items %}
+                        <tr>
+                            <td class="fw-bold">{{ item.item_name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td><span class="badge bg-secondary">{{ item.unit }}</span></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center py-5 text-muted">
+                                <i class="bi bi-box-seam display-6 d-block mb-2"></i>
+                                No inventory data available. 
+                                <br>
+                                <a href="{% url 'add_inventory' %}" class="btn btn-outline-primary btn-sm mt-3">Add First Item</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

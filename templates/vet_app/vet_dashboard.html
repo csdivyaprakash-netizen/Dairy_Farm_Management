@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Veterinarian Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Veterinarian Dashboard</h1>
+    
+    <div class="mb-3">
+        <a href="{% url 'add_health_record' %}" class="btn btn-primary">📋 Update Health Record</a>
+        <a href="{% url 'add_vaccination' %}" class="btn btn-success">💉 Add Vaccination Record</a>
+        <a href="{% url 'cattle_list' %}" class="btn btn-secondary">🐄 View All Cattle Records</a>
+    </div>
+
+    <hr>
+
+    <!-- Upcoming Vaccinations Card -->
+    <div class="card">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">💉 Upcoming Vaccinations</h5>
+        </div>
+        <div class="card-body">
+            {% if upcoming_vaccinations %}
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Cow Tag</th>
+                            <th>Vaccine</th>
+                            <th>Due Date</th>
+                            <th>Days Left</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vax in upcoming_vaccinations %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'cattle_health_history' vax.cattle.id %}">
+                                    {{ vax.cattle.tag_id }}
+                                </a>
+                            </td>
+                            <td>{{ vax.vaccine_name }}</td>
+                            <td>{{ vax.next_due_date|date:"M. d, Y" }}</td>
+                            <td>
+                                {% if vax.days_until == 0 %}
+                                    <span class="badge bg-danger">Today!</span>
+                                {% elif vax.days_until < 0 %}
+                                    <span class="badge bg-danger">Overdue by {{ vax.days_until|stringformat:"+d"|slice:"1:" }} days</span>
+                                {% elif vax.days_until <= 7 %}
+                                    <span class="badge bg-warning">{{ vax.days_until }} days</span>
+                                {% else %}
+                                    <span class="badge bg-success">{{ vax.days_until }} days</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted mb-0">No upcoming vaccinations scheduled.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
