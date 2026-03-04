@@ -49,7 +49,7 @@ def admin_dashboard(request):
         'inventory_items': Inventory.objects.all(),
         'milk_today': milk_sum,
     }
-    return render(request, 'admin_dashboard.html', context)
+    return render(request, 'admin_app/admin_dashboard.html', context)
 
 @login_required
 @user_passes_test(is_admin)
@@ -59,7 +59,7 @@ def add_cattle(request):
         form.save()
         messages.success(request, 'Cattle added successfully!')
         return redirect('admin_dashboard')
-    return render(request, 'add_cattle.html', {'form': form})
+    return render(request, 'admin_app/add_cattle.html', {'form': form})
 
 @login_required
 @user_passes_test(is_admin)
@@ -69,7 +69,7 @@ def add_inventory(request):
         form.save()
         messages.success(request, 'Inventory item added successfully!')
         return redirect('admin_dashboard')
-    return render(request, 'add_inventory.html', {'form': form})
+    return render(request, 'admin_app/add_inventory.html', {'form': form})
 
 @login_required
 @user_passes_test(is_admin)
@@ -79,7 +79,7 @@ def log_milk(request):
         form.save()
         messages.success(request, 'Milk production logged successfully!')
         return redirect('admin_dashboard')
-    return render(request, 'log_milk.html', {'form': form})
+    return render(request, 'admin_app/log_milk.html', {'form': form})
 
 # --- VET VIEWS ---
 @login_required
@@ -183,17 +183,9 @@ def cattle_health_history(request, cattle_id):
     })
 
 # --- VACCINATION VIEW (New Page) ---
-@login_required
-@user_passes_test(is_vet)
+@login_required(login_url='login_view')  
+@user_passes_test(is_vet, login_url='login_view')  
 def add_vaccination(request):
-    """
-    View for adding vaccination records.
-    Takes user to a new page where they can input:
-    - Cattle selection
-    - Vaccine name
-    - Date of vaccination
-    - Days until next dose (0 if final shot)
-    """
     if request.method == 'POST':
         form = VaccinationForm(request.POST)
         if form.is_valid():

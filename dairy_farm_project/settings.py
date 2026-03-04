@@ -60,6 +60,14 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'dairy_app' / 'static'] #
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Login URL settings
-LOGIN_URL = 'login_view'  # This tells Django to use your login page
-LOGIN_REDIRECT_URL = 'admin_dashboard'  # Where to go after login
+LOGIN_URL = 'login_view'
+LOGIN_REDIRECT_URL = 'vet_dashboard'
+LOGOUT_REDIRECT_URL = 'login_view'
+
+SESSION_COOKIE_AGE = 28800  
+SESSION_SAVE_EVERY_REQUEST = True  
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  
+
+CSRF_COOKIE_AGE = 31449600  
+CSRF_COOKIE_SECURE = False  
+CSRF_USE_SESSIONS = True  

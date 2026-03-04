@@ -6,12 +6,11 @@
 </head>
 <body class="bg-light">
     <nav class="navbar navbar-dark bg-dark mb-4">
-        <div class="container d-flex justify-content-between align-items-center">
-            <a class="navbar-brand" href="#">Dairy Farm</a>
+        <div class="container">
+            <span class="navbar-brand">Dairy Farm</span>
 
             {% if request.user.is_authenticated %}
-                <div class="d-flex gap-2">
-                    <!-- ALL OTHER BUTTONS REMOVED - ONLY LOGOUT REMAINS -->
+                <div class="d-flex">
                     <a href="{% url 'logout_view' %}" class="btn btn-outline-light btn-sm">Logout</a>
                 </div>
             {% endif %}
